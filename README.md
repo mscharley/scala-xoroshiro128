@@ -1,6 +1,6 @@
-# xoroshiro128 in Scala
+# xoroshiro128+ in Scala
 
-This is an implementation of the xoroshiro128 algorithm in Scala for a laugh.
+This is an implementation of the xoroshiro128+ algorithm in Scala for a laugh.
 
 Original implementation: http://xorshift.di.unimi.it/
 
