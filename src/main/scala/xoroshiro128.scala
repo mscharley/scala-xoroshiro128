@@ -25,7 +25,7 @@ class xoroshiro128(private var seedLo : Long, private var seedHi : Long) {
     if (intProgress == 0) { intProgress = nextLong() }
 
     val result : Int = (intProgress & 0xffffffff).toInt
-    intProgress = intProgress >> 32
+    intProgress = intProgress >>> 32
 
     result
   }
@@ -35,7 +35,7 @@ class xoroshiro128(private var seedLo : Long, private var seedHi : Long) {
     if (byteProgress == 0) { byteProgress = nextLong() }
 
     val result : Byte = (byteProgress & 0xff).toByte
-    byteProgress = byteProgress >> 8
+    byteProgress = byteProgress >>> 8
 
     result
   }
