@@ -30,5 +30,18 @@ class xoroshiro128(private var seedLo : Long, private var seedHi : Long) {
     result
   }
 
+  private var byteProgress : Long = 0
+  def nextByte() : Byte = {
+    if (byteProgress == 0) { byteProgress = nextLong() }
+
+    val result : Byte = (byteProgress & 0xff).toByte
+    byteProgress = byteProgress >> 8
+
+    result
+  }
+
+  def nextBytes(bytes : Array[Byte]) : Unit =
+    for (i <- bytes.indices) { bytes(i) = nextByte() }
+
   def nextBoolean() : Boolean = signLong(nextLong()) == 1
 }
