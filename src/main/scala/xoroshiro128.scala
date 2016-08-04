@@ -1,15 +1,19 @@
 import java.lang.Long.{rotateLeft, signum => signLong}
 
-class xoroshiro128(private var seedLo : Long, private var seedHi : Long) {
-  // TODO: Default constructor could be a lot better.
-  // From the original implementation:
-  // The state must be seeded so that it is not everywhere zero. If you have
-  // a 64-bit seed, we suggest to seed a splitmix64 generator and use its
-  // output to fill the seed.
-  def this() = this(0, java.time.ZonedDateTime.now().toEpochSecond)
+object xoroshiro128 {
+  def apply(seedLo : Long, seedHi : Long) : xoroshiro128 = new xoroshiro128(seedLo, seedHi)
+  def apply(seed : Array[Long]) = new xoroshiro128(seed(0), seed(1))
+  def apply(seed : Long) = {
+    val r = splitmix64(seed)
+    new xoroshiro128(r.nextLong(), r.nextLong())
+  }
+  def apply() = {
+    val r = splitmix64()
+    new xoroshiro128(r.nextLong(), r.nextLong())
+  }
+}
 
-  def this(seed : Array[Long]) = this(seed(0), seed(1))
-
+class xoroshiro128 private (private var seedLo : Long, private var seedHi : Long) {
   def nextLong() : Long = {
     val result : Long = seedLo + seedHi
     val s1     : Long = seedHi ^ seedLo
