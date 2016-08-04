@@ -42,6 +42,16 @@ object Benchmark extends App {
   } }
   val bytesBigImprovement = (1 - timeXoroBytesBig.value / timeJavaBytesBig.value) * 100
 
+  val timeJavaBytesSingle = measurer measure {
+    val b = Array.ofDim[Byte](ITERATIONS)
+    scalaRand.nextBytes(b)
+  }
+  val timeXoroBytesSingle = measurer measure {
+    val b = Array.ofDim[Byte](ITERATIONS)
+    xoroRand.nextBytes(b)
+  }
+  val bytesSingleImprovement = (1 - timeXoroBytesSingle.value / timeJavaBytesSingle.value) * 100
+
   val timeJavaBool = measurer measure { for (i <- 0 until ITERATIONS) yield scalaRand.nextBoolean() }
   val timeXoroBool = measurer measure { for (i <- 0 until ITERATIONS) yield xoroRand.nextBoolean() }
   val boolImprovement = (1 - timeXoroBool.value / timeJavaBool.value) * 100
@@ -52,5 +62,6 @@ object Benchmark extends App {
   println(s"Int:      java.util.Random - $timeJavaInt, xoroshiro128 - $timeXoroInt; $intImprovement% improvement")
   println(s"Bytes(s): java.util.Random - $timeJavaBytes, xoroshiro128 - $timeXoroBytes; $bytesImprovement% improvement")
   println(s"Bytes(l): java.util.Random - $timeJavaBytesBig, xoroshiro128 - $timeXoroBytesBig; $bytesBigImprovement% improvement")
+  println(s"Bytes:    java.util.Random - $timeJavaBytesSingle, xoroshiro128 - $timeXoroBytesSingle; $bytesSingleImprovement% improvement")
   println(s"Boolean:  java.util.Random - $timeJavaBool, xoroshiro128 - $timeXoroBool; $boolImprovement% improvement")
 }

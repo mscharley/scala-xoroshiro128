@@ -22,6 +22,7 @@ Long:     java.util.Random - 26.930215300000004 ms, xoroshiro128 - 15.1353751 ms
 Int:      java.util.Random - 14.460099499999998 ms, xoroshiro128 - 11.92222945 ms; 17.550847765604928% improvement
 Bytes(s): java.util.Random - 3.2541663500000007 ms, xoroshiro128 - 3.7238746500000004 ms; -14.434059279114585% improvement
 Bytes(l): java.util.Random - 2.86566435 ms, xoroshiro128 - 1.27808245 ms; 55.40013435278978% improvement
+Bytes:    java.util.Random - 2.8313277499999994 ms, xoroshiro128 - 1.25413845 ms; 55.70493560839079% improvement
 Boolean:  java.util.Random - 13.868151799999998 ms, xoroshiro128 - 10.985092 ms; 20.78907010521761% improvement
 ```
 
