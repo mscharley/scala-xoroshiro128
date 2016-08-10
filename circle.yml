@@ -1,3 +1,7 @@
 machine:
   java:
     version: openjdk8
+
+test:
+  post:
+    - cat /dev/null | sbt benchmark/run
