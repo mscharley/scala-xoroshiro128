@@ -2,6 +2,10 @@ machine:
   java:
     version: openjdk8
 
+dependencies:
+  post:
+    - cat /dev/null | sbt benchmark/test:compile
+
 test:
   post:
     - cat /dev/null | sbt benchmark/run
