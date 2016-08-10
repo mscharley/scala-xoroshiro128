@@ -16,14 +16,14 @@ A likely non-representative benchmark run on my computer:
 
 ```
 [info] Running Benchmark
-Benchmarked 1000000 iterations:
+Benchmarked 10000 iterations x1000:
 
-Long:     java.util.Random - 26.930215300000004 ms, xoroshiro128 - 15.1353751 ms;         43.79779392257589% improvement
-Int:      java.util.Random - 14.460099499999998 ms, xoroshiro128 - 11.92222945 ms;        17.550847765604928% improvement
-Bytes(s): java.util.Random - 3.2541663500000007 ms, xoroshiro128 - 3.7238746500000004 ms; -14.434059279114585% improvement
-Bytes(l): java.util.Random - 2.86566435 ms,         xoroshiro128 - 1.27808245 ms;         55.40013435278978% improvement
-Bytes:    java.util.Random - 2.8313277499999994 ms, xoroshiro128 - 1.25413845 ms;         55.70493560839079% improvement
-Boolean:  java.util.Random - 13.868151799999998 ms, xoroshiro128 - 10.985092 ms;          20.78907010521761% improvement
+Long:     java.util.Random - 0.2895389689999996 ms, xoroshiro128 - 0.17061549099999992 ms; 41.07339278396057% improvement
+Int:      java.util.Random - 0.14850449299999993 ms, xoroshiro128 - 0.15098317799999966 ms; -1.6690976481093633% improvement
+Bytes(s): java.util.Random - 0.03510169 ms, xoroshiro128 - 0.043417227000000044 ms; -23.689847981678504% improvement
+Bytes(l): java.util.Random - 0.024133592000000023 ms, xoroshiro128 - 0.010907091000000008 ms; 54.80535595364338% improvement
+Bytes:    java.util.Random - 0.02857708699999999 ms, xoroshiro128 - 0.011320101000000015 ms; 60.387491559234086% improvement
+Boolean:  java.util.Random - 0.14481436300000017 ms, xoroshiro128 - 0.12520640400000002 ms; 13.540065083185237% improvement
 ```
 
 To run this benchmark for yourself: `sbt benchmark/run`
@@ -33,3 +33,6 @@ To run this benchmark for yourself: `sbt benchmark/run`
 You can always download and compile the reference C implementation and compare output. To
 aid in that endeavour [I've put up an online version](https://ideone.com/hwDnTY) which you
 can use to easily generate sequences of values.
+
+There's also a set of prebuilt comparisons against the reference built into the test suite
+which you can run with `sbt test`.
