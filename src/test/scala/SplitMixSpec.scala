@@ -7,8 +7,7 @@ class SplitMixSpec extends FlatSpec {
     assert(sm.take(values.length).toList == values)
   }
 
-  "SplitMix64" should
-    "calculate the right sequence of numbers for a seed of 1513817156475045394" in
+  "SplitMix64" should "calculate the right sequence of numbers for a seed of 1513817156475045394" in
     checkSequence(1513817156475045394L)(
       -3626855871036418500L,
       5037142008337821566L,
@@ -32,8 +31,7 @@ class SplitMixSpec extends FlatSpec {
       -962285391878890975L
     )
 
-  "SplitMix64" should
-    "calculate the right sequence of numbers for a seed of -3624042228962942470" in
+  it should "calculate the right sequence of numbers for a seed of -3624042228962942470" in
     checkSequence(-3624042228962942470L)(
       -8093141376403486867L,
       -1660797054317164888L,
@@ -57,8 +55,7 @@ class SplitMixSpec extends FlatSpec {
       3909748544636780242L
     )
 
-  "SplitMix64" should
-    "calculate the right sequence of numbers for a seed of 3531207199216388937" in
+  it should "calculate the right sequence of numbers for a seed of 3531207199216388937" in
     checkSequence(3531207199216388937L)(
       -3206994160392332939L,
       -4012469958504412667L,
@@ -82,8 +79,7 @@ class SplitMixSpec extends FlatSpec {
       1137108542316277383L
     )
 
-  "SplitMix64" should
-    "calculate the right sequence of numbers for a seed of 608525831176989228" in
+  it should "calculate the right sequence of numbers for a seed of 608525831176989228" in
     checkSequence(608525831176989228L)(
       7458925378891065981L,
       -4668862760993682703L,
@@ -107,8 +103,7 @@ class SplitMixSpec extends FlatSpec {
       -3337446517345151332L
     )
 
-  "SplitMix64" should
-    "calculate the right sequence of numbers for a seed of 2243454288033855382" in
+  it should "calculate the right sequence of numbers for a seed of 2243454288033855382" in
     checkSequence(2243454288033855382L)(
       -5828467925148123703L,
       -5879922502433020984L,
