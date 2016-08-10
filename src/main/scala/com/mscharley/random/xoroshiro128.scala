@@ -1,3 +1,6 @@
+package com.mscharley
+package random
+
 import java.lang.Long.{rotateLeft, signum => signLong}
 
 import scala.collection.AbstractIterator

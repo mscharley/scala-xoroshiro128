@@ -7,14 +7,17 @@ lazy val commonSettings = Seq(
 lazy val xoroshiro128 = (project in file(".")).
   settings(commonSettings : _*).
   settings(
-    organization := "com.scharley",
+    organization := "com.mscharley",
     name := "xoroshiro128",
 
     libraryDependencies ++= Seq(
       // Disambiguation.
       "org.scala-lang" % "scala-reflect" % "2.11.8",
       "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
-      "org.scala-lang.modules" %% "scala-xml" % "1.0.4"
+      "org.scala-lang.modules" %% "scala-xml" % "1.0.4",
+
+      // Testing libraries.
+      "org.scalatest" %% "scalatest" % "3.0.0" % "test"
     )
   )
 

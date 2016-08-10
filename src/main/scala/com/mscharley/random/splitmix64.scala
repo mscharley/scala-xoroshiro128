@@ -1,3 +1,5 @@
+package com.mscharley
+package random
 
 object splitmix64 {
   def apply() : splitmix64 = new splitmix64(java.time.ZonedDateTime.now().toEpochSecond)

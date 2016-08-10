@@ -1,3 +1,4 @@
+import com.mscharley.random._
 import org.scalameter._
 
 object Benchmark extends App {
