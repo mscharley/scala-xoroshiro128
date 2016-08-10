@@ -1,10 +1,12 @@
+import com.mscharley.random._
 import org.scalameter._
 
 object Benchmark extends App {
-  val ITERATIONS = 1000000
+  val ITERATIONS = 10000
+  val BENCHES = 1000
 
   private val measurer = config(
-    Key.exec.benchRuns -> 20
+    Key.exec.benchRuns -> BENCHES
   ) withWarmer {
     new Warmer.Default
   } withMeasurer {
@@ -13,13 +15,17 @@ object Benchmark extends App {
 
   val scalaRand = new java.util.Random
   val xoroRand = xoroshiro128()
+  val xoroIntRand = xoroshiro128().asInt
+  val xoroBoolRand = xoroshiro128().asBoolean
 
   val timeJavaLong = measurer measure { for (i <- 0 until ITERATIONS) yield scalaRand.nextLong() }
-  val timeXoroLong = measurer measure { for (i <- 0 until ITERATIONS) yield xoroRand.nextLong() }
+  val timeXoroLong = measurer measure { for (i <- 0 until ITERATIONS) yield xoroRand.next() }
+//  val timeXoroLong = measurer measure { xoroRand.take(ITERATIONS).toIndexedSeq }
   val longImprovement = (1 - timeXoroLong.value / timeJavaLong.value) * 100
 
   val timeJavaInt = measurer measure { for (i <- 0 until ITERATIONS) yield scalaRand.nextInt() }
-  val timeXoroInt = measurer measure { for (i <- 0 until ITERATIONS) yield xoroRand.nextInt() }
+  val timeXoroInt = measurer measure { for (i <- 0 until ITERATIONS) yield xoroIntRand.next() }
+//  val timeXoroInt = measurer measure { xoroIntRand.take(ITERATIONS).toIndexedSeq }
   val intImprovement = (1 - timeXoroInt.value / timeJavaInt.value) * 100
 
   val timeJavaBytes = measurer measure { for (i <- 0 until ITERATIONS / 16) yield {
@@ -53,10 +59,11 @@ object Benchmark extends App {
   val bytesSingleImprovement = (1 - timeXoroBytesSingle.value / timeJavaBytesSingle.value) * 100
 
   val timeJavaBool = measurer measure { for (i <- 0 until ITERATIONS) yield scalaRand.nextBoolean() }
-  val timeXoroBool = measurer measure { for (i <- 0 until ITERATIONS) yield xoroRand.nextBoolean() }
+  val timeXoroBool = measurer measure { for (i <- 0 until ITERATIONS) yield xoroBoolRand.next() }
+//  val timeXoroBool = measurer measure { xoroBoolRand.take(ITERATIONS).toIndexedSeq }
   val boolImprovement = (1 - timeXoroBool.value / timeJavaBool.value) * 100
 
-  println(s"Benchmarked $ITERATIONS iterations:")
+  println(s"Benchmarked $ITERATIONS iterations x$BENCHES:")
   println("")
   println(s"Long:     java.util.Random - $timeJavaLong, xoroshiro128 - $timeXoroLong; $longImprovement% improvement")
   println(s"Int:      java.util.Random - $timeJavaInt, xoroshiro128 - $timeXoroInt; $intImprovement% improvement")
