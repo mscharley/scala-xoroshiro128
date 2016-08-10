@@ -27,3 +27,9 @@ Boolean:  java.util.Random - 13.868151799999998 ms, xoroshiro128 - 10.985092 ms;
 ```
 
 To run this benchmark for yourself: `./sbt run`
+
+## Verification
+
+You can always download and compile the reference C implementation and compare output. To
+aid in that endeavour [I've put up an online version](https://ideone.com/hwDnTY) which you
+can use to easily generate sequences of values.
