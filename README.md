@@ -51,5 +51,19 @@ can use to easily generate sequences of values.
 There's also a set of prebuilt comparisons against the reference built into the test suite
 which you can run with `sbt test`.
 
+## Releases
+
+### Snapshots
+
+```
+sbt publishSigned
+```
+
+### Full Releases
+
+```
+sbt publishSigned sonatypeRelease
+```
+
   [gh-contrib]: https://github.com/mscharley/scala-xoroshiro128/graphs/contributors
   [gh-issues]: https://github.com/mscharley/scala-xoroshiro128/issues

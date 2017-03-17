@@ -1,6 +1,9 @@
+import com.typesafe.sbt.pgp.PgpKeys._
 import sbtcrossproject.{CrossType, crossProject}
 
 lazy val commonSettings = Seq(
+  organization := "com.mscharley",
+  version := "0.2-SNAPSHOT",
   scalaVersion := "2.11.8",
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xlint")
 )
@@ -17,7 +20,6 @@ lazy val xoroshiro128 =
     .crossType(CrossType.Full)
     .settings(
       commonSettings,
-      organization := "com.mscharley",
       name := "xoroshiro128"
     )
     .jvmSettings(testingSettings)
@@ -41,5 +43,5 @@ lazy val benchmark =
 
 lazy val `scala-xoroshiro128` =
   (project in file("."))
-    .settings(publish := {})
+    .settings(commonSettings, publish := {}, publishSigned := {})
     .aggregate(xoroshiro128JVM, xoroshiro128JS, xoroshiro128Native)
