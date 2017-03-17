@@ -56,16 +56,19 @@ class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long)
     result
   }
 
+  //noinspection RangeToIndices
   def nextBytes(bytes : Array[Byte]) : Unit =
-    for (i <- bytes.indices) { bytes(i) = nextByte() }
+    Range(0, bytes.length) foreach { i =>
+      bytes(i) = nextByte()
+    }
 
   def asByte : Iterator[Byte] = new AbstractIterator[Byte] {
-    override def hasNext: Boolean = self.hasNext
+    override def hasNext: Boolean = true
     override def next(): Byte = self.nextByte()
   }
 
   def asBoolean : Iterator[Boolean] = new AbstractIterator[Boolean] {
-    override def hasNext: Boolean = self.hasNext
+    override def hasNext: Boolean = true
     override def next(): Boolean = signLong(self.next()) == 1
   }
 }

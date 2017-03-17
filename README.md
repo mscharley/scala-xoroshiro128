@@ -30,14 +30,14 @@ A likely non-representative benchmark run on my computer:
 
 ```
 [info] Running Benchmark
-Benchmarked 10000 iterations x1000:
+Benchmarking 100000 iterations x1000:
 
-Long:     java.util.Random - 0.2895389689999996 ms, xoroshiro128 - 0.17061549099999992 ms; 41.07339278396057% improvement
-Int:      java.util.Random - 0.14850449299999993 ms, xoroshiro128 - 0.15098317799999966 ms; -1.6690976481093633% improvement
-Bytes(s): java.util.Random - 0.03510169 ms, xoroshiro128 - 0.043417227000000044 ms; -23.689847981678504% improvement
-Bytes(l): java.util.Random - 0.024133592000000023 ms, xoroshiro128 - 0.010907091000000008 ms; 54.80535595364338% improvement
-Bytes:    java.util.Random - 0.02857708699999999 ms, xoroshiro128 - 0.011320101000000015 ms; 60.387491559234086% improvement
-Boolean:  java.util.Random - 0.14481436300000017 ms, xoroshiro128 - 0.12520640400000002 ms; 13.540065083185237% improvement
+Long:     java.util.Random - 3.573087792000001 ms, xoroshiro128 - 1.9018405080000018 ms; 46.773193979220274% improvement
+Int:      java.util.Random - 1.9018745370000056 ms, xoroshiro128 - 1.6968884260000006 ms; 10.778109018870808% improvement
+Bytes(s): java.util.Random - 0.4364170409999992 ms, xoroshiro128 - 0.3041575960000002 ms; 30.30574715802613% improvement
+Bytes(l): java.util.Random - 0.3242185830000001 ms, xoroshiro128 - 0.14122651099999983 ms; 56.440957303178465% improvement
+Bytes:    java.util.Random - 0.29632551600000023 ms, xoroshiro128 - 0.14365675800000016 ms; 51.520625041280596% improvement
+Boolean:  java.util.Random - 1.7319338389999992 ms, xoroshiro128 - 1.4921221799999982 ms; 13.84646766521207% improvement
 ```
 
 To run this benchmark for yourself: `sbt benchmark/run`

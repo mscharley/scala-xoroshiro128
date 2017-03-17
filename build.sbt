@@ -31,6 +31,7 @@ lazy val benchmark =
   (project in file("benchmark"))
     .settings(
       commonSettings,
+      name := "xoroshiro128-benchmark",
       mainClass in Compile := Some("Benchmark"),
 
       // Scalameter for speed testing.
