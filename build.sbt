@@ -2,7 +2,14 @@ import sbtcrossproject.{CrossType, crossProject}
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.8",
-  scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+  scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xlint")
+)
+
+lazy val testingSettings = Seq(
+  libraryDependencies ++= Seq(
+    // Testing libraries.
+    "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
+  )
 )
 
 lazy val xoroshiro128 =
@@ -11,13 +18,10 @@ lazy val xoroshiro128 =
     .settings(
       commonSettings,
       organization := "com.mscharley",
-      name := "xoroshiro128",
-
-      libraryDependencies ++= Seq(
-        // Testing libraries.
-        "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
-      )
+      name := "xoroshiro128"
     )
+    .jvmSettings(testingSettings)
+    .jsSettings(testingSettings)
 
 lazy val xoroshiro128JVM    = xoroshiro128.jvm
 lazy val xoroshiro128JS     = xoroshiro128.js

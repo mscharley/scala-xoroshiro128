@@ -9,11 +9,12 @@ machine:
 dependencies:
   pre:
     - sudo apt-get update
-    - sudo apt-get install clang libgc-dev libunwind-dev
+    - sudo apt-get install clang libgc-dev
     - cat /dev/null | sbt update
-    - cat /dev/null | sbt benchmark/update
   override:
-    - cat /dev/null | sbt test:compile
+    - cat /dev/null | sbt xoroshiro128JVM/test:compile
+    - cat /dev/null | sbt xoroshiro128JS/test:compile
+    - cat /dev/null | sbt xoroshiro128Native/compile
     - cat /dev/null | sbt benchmark/test:compile
   cache_directories:
     - "~/.ivy2"
