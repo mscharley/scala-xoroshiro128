@@ -1,7 +1,7 @@
-import org.scalameter._
+
 
 // scalastyle:off
-object JvmBenchmark extends Benchmark {
+object JsBenchmark extends Benchmark {
   private val sm =
     config(
       Key.exec.benchRuns -> BENCHES

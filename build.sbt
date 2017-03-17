@@ -37,6 +37,12 @@ lazy val benchmark =
       name := "xoroshiro128-benchmark",
       mainClass in Compile := Some("Benchmark")
     )
+    .jsSettings(
+      mainClass in Compile := Some("JsBenchmark")
+    )
+    .nativeSettings(
+      mainClass in Compile := Some("NativeBenchmark")
+    )
     .jvmSettings(
       mainClass in Compile := Some("JvmBenchmark"),
 
