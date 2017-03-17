@@ -1,33 +1,41 @@
-machine:
-  java:
-    version: openjdk8
-  node:
-    version: 4.3.2
-  post:
-    - curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > ~/bin/sbt && chmod 0755 ~/bin/sbt
+version: 2
 
-dependencies:
-  pre:
-    - sudo apt-get update
-    - sudo apt-get install clang libgc-dev
-    - cat /dev/null | sbt update
-  override:
-    - cat /dev/null | sbt benchmarkJVM/test:compile
-    - cat /dev/null | sbt benchmarkJS/test:compile
-    - cat /dev/null | sbt benchmarkNative/compile
-  cache_directories:
-    - "~/.ivy2"
-    - "~/.m2"
-    - "~/.sbt"
-    - "~/.lib"
-
-test:
-  pre:
-    - cat /dev/null | sbt scalastyle
-  override:
-    - cat /dev/null | sbt xoroshiro128JVM/test:test
-    - cat /dev/null | sbt xoroshiro128JS/test:test
-  post:
-    - cat /dev/null | sbt benchmarkJVM/run
-    - cat /dev/null | sbt benchmarkJS/run
-    - cat /dev/null | sbt benchmarkNative/run
+jobs:
+  build:
+    working_directory: /root/scala-xoroshiro128
+    docker:
+      - image: ubuntu:16.04
+    steps:
+      - run: >
+          apt-get update &&
+          DEBIAN_FRONTEND=noninteractive apt-get install --yes
+          curl git openjdk-8-jre-headless nodejs
+          clang libgc-dev libunwind-dev &&
+          rm -rf /var/lib/apt/lists/*
+      - run: mkdir -p ~/bin
+      - run: curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt && chmod 0755 /usr/local/bin/sbt
+      - checkout
+      - restore_cache:
+          key: dependency-cache-<< checksum "build.sbt" >>
+          paths:
+            - "~/.ivy2"
+            - "~/.m2"
+            - "~/.sbt"
+            - "~/.lib"
+      - run: sbt update
+      - run: sbt benchmarkJVM/test:compile
+      - run: sbt benchmarkJS/test:compile
+      - run: sbt benchmarkNative/compile
+      - save_cache:
+          key: dependency-cache-<< checksum "build.sbt" >>
+          paths:
+            - "~/.ivy2"
+            - "~/.m2"
+            - "~/.sbt"
+            - "~/.lib"
+      - run: sbt scalastyle
+      - run: sbt xoroshiro128JVM/test:test
+      - run: sbt xoroshiro128JS/test:test
+      - run: sbt benchmarkJVM/run
+      - run: sbt benchmarkJS/run
+      - run: sbt benchmarkNative/run
