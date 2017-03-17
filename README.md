@@ -1,6 +1,20 @@
 # xoroshiro128+ in Scala
 
+[![CircleCI](https://circleci.com/gh/mscharley/scala-xoroshiro128.svg?style=svg)](https://circleci.com/gh/mscharley/scala-xoroshiro128)
+
+**Source:** [https://github.com/mscharley/scala-xoroshiro128](https://github.com/mscharley/scala-xoroshiro128)  
+**Author:** Matthew Scharley  
+**Contributors:** [See contributors on GitHub][gh-contrib]  
+**Bugs/Support:** [Github Issues][gh-issues]  
+**Copyright:** 2017  
+**License:** [CC0](http://creativecommons.org/publicdomain/zero/1.0/)  
+**Status:** Active
+
+## Synopsis
+
 This is an implementation of the xoroshiro128+ algorithm in Scala for a laugh.
+
+## License
 
 Original implementation: http://xorshift.di.unimi.it/
 
@@ -36,3 +50,6 @@ can use to easily generate sequences of values.
 
 There's also a set of prebuilt comparisons against the reference built into the test suite
 which you can run with `sbt test`.
+
+  [gh-contrib]: https://github.com/mscharley/scala-xoroshiro128/graphs/contributors
+  [gh-issues]: https://github.com/mscharley/scala-xoroshiro128/issues
