@@ -1,9 +1,12 @@
 import com.mscharley.random._
 import org.scalameter._
 
+// scalastyle:off regex
 object Benchmark extends App {
   val ITERATIONS = 10000
   val BENCHES = 1000
+  val SMALL_BYTE_COUNT = 16
+  val LARGE_BYTE_COUNT = 4096
 
   private val measurer = config(
     Key.exec.benchRuns -> BENCHES
@@ -29,21 +32,21 @@ object Benchmark extends App {
   val intImprovement = (1 - timeXoroInt.value / timeJavaInt.value) * 100
 
   val timeJavaBytes = measurer measure { for (i <- 0 until ITERATIONS / 16) yield {
-    val b = Array.ofDim[Byte](16)
+    val b = Array.ofDim[Byte](SMALL_BYTE_COUNT)
     scalaRand.nextBytes(b)
   } }
   val timeXoroBytes = measurer measure { for (i <- 0 until ITERATIONS / 16) yield {
-    val b = Array.ofDim[Byte](16)
+    val b = Array.ofDim[Byte](SMALL_BYTE_COUNT)
     xoroRand.nextBytes(b)
   } }
   val bytesImprovement = (1 - timeXoroBytes.value / timeJavaBytes.value) * 100
 
   val timeJavaBytesBig = measurer measure { for (i <- 0 until ITERATIONS / 4096) yield {
-    val b = Array.ofDim[Byte](4096)
+    val b = Array.ofDim[Byte](LARGE_BYTE_COUNT)
     scalaRand.nextBytes(b)
   } }
   val timeXoroBytesBig = measurer measure { for (i <- 0 until ITERATIONS / 4096) yield {
-    val b = Array.ofDim[Byte](4096)
+    val b = Array.ofDim[Byte](LARGE_BYTE_COUNT)
     xoroRand.nextBytes(b)
   } }
   val bytesBigImprovement = (1 - timeXoroBytesBig.value / timeJavaBytesBig.value) * 100
