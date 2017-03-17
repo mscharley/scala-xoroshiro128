@@ -38,3 +38,8 @@ lazy val benchmark =
       resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases",
       libraryDependencies += "com.storm-enroute" %% "scalameter-core" % "0.7"
     ).dependsOn(xoroshiro128JVM)
+
+lazy val `scala-xoroshiro128` =
+  (project in file("."))
+    .settings(publish := {})
+    .aggregate(xoroshiro128JVM, xoroshiro128JS, xoroshiro128Native)
