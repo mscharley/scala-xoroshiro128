@@ -24,6 +24,12 @@ worldwide. This software is distributed without any warranty.
 
 See <http://creativecommons.org/publicdomain/zero/1.0/>.
 
+## Usage
+
+```
+"com.mscharley" %%% "xoroshiro128" % "0.1"
+```
+
 ## Benchmark
 
 A likely non-representative benchmark run on my computer:
