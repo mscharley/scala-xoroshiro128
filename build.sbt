@@ -1,4 +1,4 @@
-import sbtcrossproject.{crossProject, CrossType}
+import sbtcrossproject.{CrossType, crossProject}
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.8",
@@ -6,8 +6,8 @@ lazy val commonSettings = Seq(
 )
 
 lazy val xoroshiro128 =
-  crossProject(JVMPlatform, JSPlatform, NativePlatform).crossType(CrossType.Pure)
-    .in(file("."))
+  crossProject(JVMPlatform, JSPlatform, NativePlatform)
+    .crossType(CrossType.Full)
     .settings(
       commonSettings,
       organization := "com.mscharley",
@@ -15,12 +15,12 @@ lazy val xoroshiro128 =
 
       libraryDependencies ++= Seq(
         // Testing libraries.
-        "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+        "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
       )
     )
 
-lazy val xoroshiro128JVM = xoroshiro128.jvm
-lazy val xoroshiro128JS = xoroshiro128.js
+lazy val xoroshiro128JVM    = xoroshiro128.jvm
+lazy val xoroshiro128JS     = xoroshiro128.js
 lazy val xoroshiro128Native = xoroshiro128.native
 
 lazy val benchmark =
