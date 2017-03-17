@@ -1,6 +1,7 @@
 import com.mscharley.random._
 import org.scalatest.FlatSpec
 
+// scalastyle:off magic.number
 class Xoroshiro128Spec extends FlatSpec {
   def checkSequence(lo : Long, high : Long)(values : Long*) : Unit = {
     val sm = xoroshiro128(lo, high)

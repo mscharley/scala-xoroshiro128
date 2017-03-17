@@ -1,11 +1,32 @@
 machine:
   java:
     version: openjdk8
+  node:
+    version: 4.3.2
+  post:
+    - curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > ~/bin/sbt && chmod 0755 ~/bin/sbt
 
 dependencies:
-  post:
+  pre:
+    - sudo apt-get update
+    - sudo apt-get install clang libgc-dev
+    - cat /dev/null | sbt update
+  override:
+    - cat /dev/null | sbt xoroshiro128JVM/test:compile
+    - cat /dev/null | sbt xoroshiro128JS/test:compile
+    - cat /dev/null | sbt xoroshiro128Native/compile
     - cat /dev/null | sbt benchmark/test:compile
+  cache_directories:
+    - "~/.ivy2"
+    - "~/.m2"
+    - "~/.sbt"
+    - "~/.lib"
 
 test:
+  pre:
+    - cat /dev/null | sbt scalastyle
+  override:
+    - cat /dev/null | sbt xoroshiro128JVM/test:test
+    - cat /dev/null | sbt xoroshiro128JS/test:test
   post:
     - cat /dev/null | sbt benchmark/run
