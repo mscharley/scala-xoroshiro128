@@ -3,7 +3,7 @@ import sbtcrossproject.{CrossType, crossProject}
 
 lazy val commonSettings = Seq(
   organization := "com.mscharley",
-  version := "0.2-SNAPSHOT",
+  version := "0.2.0-SNAPSHOT",
   scalaVersion := "2.11.8",
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xlint")
 )
