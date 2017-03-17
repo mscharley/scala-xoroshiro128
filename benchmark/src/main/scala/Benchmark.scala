@@ -17,9 +17,9 @@ object Benchmark extends App {
   }
 
   val scalaRand = new java.util.Random
-  val xoroRand = xoroshiro128()
-  val xoroIntRand = xoroshiro128().asInt
-  val xoroBoolRand = xoroshiro128().asBoolean
+  val xoroRand = Xoroshiro128()
+  val xoroIntRand = Xoroshiro128().asInt
+  val xoroBoolRand = Xoroshiro128().asBoolean
 
   val timeJavaLong = measurer measure { for (i <- 0 until ITERATIONS) yield scalaRand.nextLong() }
   val timeXoroLong = measurer measure { for (i <- 0 until ITERATIONS) yield xoroRand.next() }

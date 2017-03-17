@@ -4,7 +4,7 @@ import org.scalatest.FlatSpec
 // scalastyle:off magic.number
 class SplitMixSpec extends FlatSpec {
   def checkSequence(seed : Long)(values : Long*) : Unit = {
-    val sm = splitmix64(seed)
+    val sm = SplitMix64(seed)
     assert(sm.take(values.length).toList == values)
   }
 

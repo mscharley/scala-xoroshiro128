@@ -5,20 +5,20 @@ import java.lang.Long.{rotateLeft, signum => signLong}
 
 import scala.collection.AbstractIterator
 
-object xoroshiro128 {
-  def apply(seedLo : Long, seedHi : Long) : xoroshiro128 = new xoroshiro128(seedLo, seedHi)
-  def apply(seed : Array[Long]) = new xoroshiro128(seed(0), seed(1))
-  def apply(seed : Long) = {
-    val r = splitmix64(seed)
-    new xoroshiro128(r.next(), r.next())
+object Xoroshiro128 {
+  def apply(seedLo : Long, seedHi : Long) : Xoroshiro128 = new Xoroshiro128(seedLo, seedHi)
+  def apply(seed : Array[Long]) : Xoroshiro128 = new Xoroshiro128(seed(0), seed(1))
+  def apply(seed : Long) : Xoroshiro128 = {
+    val r = SplitMix64(seed)
+    new Xoroshiro128(r.next(), r.next())
   }
-  def apply() = {
-    val r = splitmix64()
-    new xoroshiro128(r.next(), r.next())
+  def apply() : Xoroshiro128 = {
+    val r = SplitMix64()
+    new Xoroshiro128(r.next(), r.next())
   }
 }
 
-class xoroshiro128 private (private var seedLo : Long, private var seedHi : Long) extends AbstractIterator[Long] {
+class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long) extends AbstractIterator[Long] {
   self =>
 
   override def hasNext : Boolean = true

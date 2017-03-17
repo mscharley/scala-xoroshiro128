@@ -1,12 +1,12 @@
 package com.mscharley
 package random
 
-object splitmix64 {
-  def apply() : splitmix64 = new splitmix64(java.time.ZonedDateTime.now().toEpochSecond)
-  def apply(seed : Long) = new splitmix64(seed)
+object SplitMix64 {
+  def apply() : SplitMix64 = apply(java.time.ZonedDateTime.now().toEpochSecond)
+  def apply(seed : Long) : SplitMix64 = new SplitMix64(seed)
 }
 
-class splitmix64 private (private var seed : Long) extends Iterator[Long] {
+class SplitMix64 private(private var seed : Long) extends Iterator[Long] {
   override def hasNext: Boolean = true
 
   override def next(): Long = {
