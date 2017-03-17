@@ -24,7 +24,7 @@ dependencies:
 
 test:
   pre:
-    - cat /dev/null | sbt test:scalastyle
+    - cat /dev/null | sbt scalastyle
   override:
     - cat /dev/null | sbt xoroshiro128JVM/test:test
     - cat /dev/null | sbt xoroshiro128JS/test:test
