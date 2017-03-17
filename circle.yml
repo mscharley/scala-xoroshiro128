@@ -1,11 +1,26 @@
 machine:
   java:
     version: openjdk8
+  post:
+    - curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > ~/bin/sbt && chmod 0755 ~/bin/sbt
 
 dependencies:
-  post:
+  pre:
+    - cat /dev/null | sbt update
+    - cat /dev/null | sbt benchmark/update
+  override:
+    - cat /dev/null | sbt test:compile
     - cat /dev/null | sbt benchmark/test:compile
+  cache_directories:
+    - "~/.ivy2"
+    - "~/.m2"
+    - "~/.sbt"
+    - "~/.lib"
 
 test:
+  pre:
+    - cat /dev/null | sbt test:scalastyle
+  override:
+    - cat /dev/null | sbt test:test
   post:
     - cat /dev/null | sbt benchmark/run
