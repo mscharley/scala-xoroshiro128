@@ -23,6 +23,7 @@ test:
   pre:
     - cat /dev/null | sbt test:scalastyle
   override:
-    - cat /dev/null | sbt test:test
+    - cat /dev/null | sbt xoroshiro128JVM/test:test
+    - cat /dev/null | sbt xoroshiro128JS/test:test
   post:
     - cat /dev/null | sbt benchmark/run
