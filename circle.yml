@@ -12,10 +12,9 @@ dependencies:
     - sudo apt-get install clang libgc-dev
     - cat /dev/null | sbt update
   override:
-    - cat /dev/null | sbt xoroshiro128JVM/test:compile
-    - cat /dev/null | sbt xoroshiro128JS/test:compile
-    - cat /dev/null | sbt xoroshiro128Native/compile
-    - cat /dev/null | sbt benchmark/test:compile
+    - cat /dev/null | sbt benchmarkJVM/test:compile
+    - cat /dev/null | sbt benchmarkJS/test:compile
+    - cat /dev/null | sbt benchmarkNative/compile
   cache_directories:
     - "~/.ivy2"
     - "~/.m2"
