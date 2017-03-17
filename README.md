@@ -46,7 +46,7 @@ Bytes:    java.util.Random - 0.29632551600000023 ms, xoroshiro128 - 0.1436567580
 Boolean:  java.util.Random - 1.7319338389999992 ms, xoroshiro128 - 1.4921221799999982 ms; 13.84646766521207% improvement
 ```
 
-To run this benchmark for yourself: `sbt benchmark/run`
+To run this benchmark for yourself: `sbt benchmarkJVM/run`
 
 ## Verification
 

@@ -29,4 +29,6 @@ test:
     - cat /dev/null | sbt xoroshiro128JVM/test:test
     - cat /dev/null | sbt xoroshiro128JS/test:test
   post:
-    - cat /dev/null | sbt benchmark/run
+    - cat /dev/null | sbt benchmarkJVM/run
+    - cat /dev/null | sbt benchmarkJS/run
+    - cat /dev/null | sbt benchmarkNative/run
