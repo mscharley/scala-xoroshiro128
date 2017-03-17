@@ -8,6 +8,7 @@ machine:
 
 dependencies:
   pre:
+    - sudo apt-get install clang libgc-dev libunwind-dev
     - cat /dev/null | sbt update
     - cat /dev/null | sbt benchmark/update
   override:
