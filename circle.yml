@@ -7,11 +7,12 @@ jobs:
       - image: ubuntu:16.04
     steps:
       - run: >
-          apt-get update &&
-          DEBIAN_FRONTEND=noninteractive apt-get install --yes
+          apt-get update
+          && DEBIAN_FRONTEND=noninteractive apt-get install --yes
           curl git openjdk-8-jre-headless nodejs
-          clang libgc-dev libunwind-dev &&
-          rm -rf /var/lib/apt/lists/*
+          clang libgc-dev libunwind-dev
+          && rm -rf /var/lib/apt/lists/*
+          && ln -s /usr/bin/nodejs /usr/bin/node
       - run: mkdir -p ~/bin
       - run: curl -s https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt > /usr/local/bin/sbt && chmod 0755 /usr/local/bin/sbt
       - checkout
