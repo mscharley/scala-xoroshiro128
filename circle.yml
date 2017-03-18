@@ -39,4 +39,4 @@ jobs:
       - run: sbt xoroshiro128JS/test:test
       - run: sbt benchmarkJVM/run
       - run: sbt benchmarkJS/run
-      - run: sbt benchmarkNative/run
+      - run: sbt benchmarkNative/nativeLink && ./benchmark/native/target/scala-2.11/xoroshiro128-benchmark-out
