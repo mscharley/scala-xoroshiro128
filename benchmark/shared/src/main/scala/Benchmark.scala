@@ -2,8 +2,8 @@ import com.mscharley.random._
 
 // scalastyle:off
 trait Benchmark {
-  val ITERATIONS = 100000
-  val BENCHES = 1000
+  val ITERATIONS = 1000000
+  val BENCHES = 100
   val SMALL_BYTE_COUNT = 16
   val LARGE_BYTE_COUNT = 4096
 
