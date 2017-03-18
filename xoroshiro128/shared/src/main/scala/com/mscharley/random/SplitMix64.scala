@@ -2,7 +2,7 @@ package com.mscharley
 package random
 
 object SplitMix64 {
-  def apply() : SplitMix64 = apply(java.time.ZonedDateTime.now().toEpochSecond)
+  def apply() : SplitMix64 = apply(System.nanoTime())
   def apply(seed : Long) : SplitMix64 = new SplitMix64(seed)
 }
 

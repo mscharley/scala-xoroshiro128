@@ -21,13 +21,16 @@ object Xoroshiro128 {
 class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long) extends AbstractIterator[Long] {
   self =>
 
+  @inline
   override def hasNext : Boolean = true
   override def next() : Long = {
     val result : Long = seedLo + seedHi
     val s1     : Long = seedHi ^ seedLo
 
+    // scalastyle:off magic.number
     seedLo = rotateLeft(seedLo, 55) ^ s1 ^ (s1 << 14)
     seedHi = rotateLeft(s1, 36)
+    // scalastyle:on magic.number
 
     result
   }
@@ -35,7 +38,8 @@ class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long)
   def asInt : Iterator[Int] = new AbstractIterator[Int] {
     private var intProgress : Long = 0
 
-    override def hasNext : Boolean = self.hasNext
+    @inline
+    override def hasNext : Boolean = true
     override def next() : Int = {
       if (intProgress == 0) { intProgress = self.next() }
 
@@ -63,11 +67,13 @@ class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long)
     }
 
   def asByte : Iterator[Byte] = new AbstractIterator[Byte] {
+    @inline
     override def hasNext: Boolean = true
     override def next(): Byte = self.nextByte()
   }
 
   def asBoolean : Iterator[Boolean] = new AbstractIterator[Boolean] {
+    @inline
     override def hasNext: Boolean = true
     override def next(): Boolean = signLong(self.next()) == 1
   }
