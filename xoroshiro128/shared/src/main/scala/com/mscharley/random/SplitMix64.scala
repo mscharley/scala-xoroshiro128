@@ -2,7 +2,7 @@ package com.mscharley
 package random
 
 object SplitMix64 {
-  def apply() : SplitMix64 = apply(new java.util.Date().getTime / 1000)
+  def apply() : SplitMix64 = apply(System.nanoTime())
   def apply(seed : Long) : SplitMix64 = new SplitMix64(seed)
 }
 
