@@ -60,11 +60,14 @@ class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long)
     result
   }
 
-  //noinspection RangeToIndices
-  def nextBytes(bytes : Array[Byte]) : Unit =
-    Range(0, bytes.length) foreach { i =>
+  def nextBytes(bytes : Array[Byte]) : Unit = {
+    var i = 0
+    val l = bytes.length
+    while (i < l) {
       bytes(i) = nextByte()
+      i += 1
     }
+  }
 
   def asByte : Iterator[Byte] = new AbstractIterator[Byte] {
     @inline

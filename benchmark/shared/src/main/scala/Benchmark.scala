@@ -19,48 +19,60 @@ trait Benchmark {
     val xoroBoolRand = Xoroshiro128().asBoolean
 
     val timeJavaLong = measurer measure {
-      for (i <- 0 until ITERATIONS) yield scalaRand.nextLong()
+      var i = 0; while (i < ITERATIONS) { scalaRand.nextLong(); i += 1 }
     }
     val timeXoroLong = measurer measure {
-      for (i <- 0 until ITERATIONS) yield xoroRand.next()
+      var i = 0; while (i < ITERATIONS) { xoroRand.next(); i += 1 }
     }
     val longImprovement = (1 - timeXoroLong / timeJavaLong) * 100
     println(s"Long:     java.util.Random - $timeJavaLong ms, xoroshiro128 - $timeXoroLong ms; $longImprovement% improvement")
 
     val timeJavaInt = measurer measure {
-      for (i <- 0 until ITERATIONS) yield scalaRand.nextInt()
+      var i = 0; while (i < ITERATIONS) { scalaRand.nextInt(); i += 1 }
     }
     val timeXoroInt = measurer measure {
-      for (i <- 0 until ITERATIONS) yield xoroIntRand.next()
+      var i = 0; while (i < ITERATIONS) { xoroIntRand.next(); i += 1 }
     }
     val intImprovement = (1 - timeXoroInt / timeJavaInt) * 100
     println(s"Int:      java.util.Random - $timeJavaInt ms, xoroshiro128 - $timeXoroInt ms; $intImprovement% improvement")
 
     val timeJavaBytes = measurer measure {
-      for (i <- 0 until ITERATIONS / 16) yield {
+      var i = 0
+      val l = ITERATIONS / 16
+      while (i < l) {
         val b = Array.ofDim[Byte](SMALL_BYTE_COUNT)
         scalaRand.nextBytes(b)
+        i += 1
       }
     }
     val timeXoroBytes = measurer measure {
-      for (i <- 0 until ITERATIONS / 16) yield {
+      var i = 0
+      val l = ITERATIONS / 16
+      while (i < l) {
         val b = Array.ofDim[Byte](SMALL_BYTE_COUNT)
         xoroRand.nextBytes(b)
+        i += 1
       }
     }
     val bytesImprovement = (1 - timeXoroBytes / timeJavaBytes) * 100
     println(s"Bytes(s): java.util.Random - $timeJavaBytes ms, xoroshiro128 - $timeXoroBytes ms; $bytesImprovement% improvement")
 
     val timeJavaBytesBig = measurer measure {
-      for (i <- 0 until ITERATIONS / 4096) yield {
+      var i = 0
+      val l = ITERATIONS / 4096
+      while (i < l) {
         val b = Array.ofDim[Byte](LARGE_BYTE_COUNT)
         scalaRand.nextBytes(b)
+        i += 1
       }
     }
     val timeXoroBytesBig = measurer measure {
-      for (i <- 0 until ITERATIONS / 4096) yield {
+      var i = 0
+      val l = ITERATIONS / 4096
+      while (i < l) {
         val b = Array.ofDim[Byte](LARGE_BYTE_COUNT)
         xoroRand.nextBytes(b)
+        i += 1
       }
     }
     val bytesBigImprovement = (1 - timeXoroBytesBig / timeJavaBytesBig) * 100
@@ -78,10 +90,10 @@ trait Benchmark {
     println(s"Bytes:    java.util.Random - $timeJavaBytesSingle ms, xoroshiro128 - $timeXoroBytesSingle ms; $bytesSingleImprovement% improvement")
 
     val timeJavaBool = measurer measure {
-      for (i <- 0 until ITERATIONS) yield scalaRand.nextBoolean()
+      var i = 0; while (i < ITERATIONS) { scalaRand.nextBoolean(); i += 1 }
     }
     val timeXoroBool = measurer measure {
-      for (i <- 0 until ITERATIONS) yield xoroBoolRand.next()
+      var i = 0; while (i < ITERATIONS) { xoroBoolRand.next(); i += 1 }
     }
     val boolImprovement = (1 - timeXoroBool / timeJavaBool) * 100
     println(s"Boolean:  java.util.Random - $timeJavaBool ms, xoroshiro128 - $timeXoroBool ms; $boolImprovement% improvement")
