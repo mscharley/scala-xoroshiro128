@@ -1,10 +1,6 @@
 package com.mscharley
 package random
 
-import java.lang.Long.{rotateLeft, signum => signLong}
-
-import scala.collection.AbstractIterator
-
 object Xoroshiro128 {
   def apply(seedLo : Long, seedHi : Long) : Xoroshiro128 = new Xoroshiro128(seedLo, seedHi)
   def apply(seed : Array[Long]) : Xoroshiro128 = new Xoroshiro128(seed(0), seed(1))
@@ -18,44 +14,46 @@ object Xoroshiro128 {
   }
 }
 
-class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long) extends AbstractIterator[Long] {
-  self =>
+class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long) {
+  import java.lang.Long.{signum => signLong}
+
+  private var remainingBytes : Int = 0
+  private var remaining : Long = _
 
   @inline
-  override def hasNext : Boolean = true
-  override def next() : Long = {
-    val result : Long = seedLo + seedHi
-    val s1     : Long = seedHi ^ seedLo
+  private def generate(): Unit = {
+    remaining = seedLo + seedHi
+    val s1 : Long = seedHi ^ seedLo
 
     // scalastyle:off magic.number
-    seedLo = rotateLeft(seedLo, 55) ^ s1 ^ (s1 << 14)
-    seedHi = rotateLeft(s1, 36)
+    seedLo = ((seedLo << 55) | (seedLo >>> -55)) ^ s1 ^ (s1 << 14)
+    seedHi = (s1 << 36) | (s1 >>> -36)
+    remainingBytes = 8
     // scalastyle:on magic.number
+  }
+
+  def nextLong() : Long = {
+    generate()
+    remainingBytes = 0
+    remaining
+  }
+
+  def nextInt() : Int = {
+    if (remainingBytes < 4) { generate() }
+
+    remainingBytes -= 4
+    val result : Int = remaining.toInt
+    remaining = remaining >>> 32
 
     result
   }
 
-  def asInt : Iterator[Int] = new AbstractIterator[Int] {
-    private var intProgress : Long = 0
+  def nextByte() : Byte = {
+    if (remainingBytes < 1) { generate() }
 
-    @inline
-    override def hasNext : Boolean = true
-    override def next() : Int = {
-      if (intProgress == 0) { intProgress = self.next() }
-
-      val result : Int = (intProgress & 0xffffffff).toInt
-      intProgress = intProgress >>> 32
-
-      result
-    }
-  }
-
-  private var byteProgress : Long = 0
-  protected def nextByte() : Byte = {
-    if (byteProgress == 0) { byteProgress = next() }
-
-    val result : Byte = (byteProgress & 0xff).toByte
-    byteProgress = byteProgress >>> 8
+    remainingBytes -= 1
+    val result : Byte = remaining.toByte
+    remaining = remaining >>> 32
 
     result
   }
@@ -69,15 +67,9 @@ class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long)
     }
   }
 
-  def asByte : Iterator[Byte] = new AbstractIterator[Byte] {
-    @inline
-    override def hasNext: Boolean = true
-    override def next(): Byte = self.nextByte()
-  }
-
-  def asBoolean : Iterator[Boolean] = new AbstractIterator[Boolean] {
-    @inline
-    override def hasNext: Boolean = true
-    override def next(): Boolean = signLong(self.next()) == 1
+  def nextBoolean(): Boolean = {
+    generate()
+    remainingBytes = 0
+    signLong(remaining) == 1
   }
 }

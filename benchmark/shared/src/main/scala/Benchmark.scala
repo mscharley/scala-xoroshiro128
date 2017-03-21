@@ -15,14 +15,12 @@ trait Benchmark {
 
     val scalaRand = new java.util.Random
     val xoroRand = Xoroshiro128()
-    val xoroIntRand = Xoroshiro128().asInt
-    val xoroBoolRand = Xoroshiro128().asBoolean
 
     val timeJavaLong = measurer measure {
       var i = 0; while (i < ITERATIONS) { scalaRand.nextLong(); i += 1 }
     }
     val timeXoroLong = measurer measure {
-      var i = 0; while (i < ITERATIONS) { xoroRand.next(); i += 1 }
+      var i = 0; while (i < ITERATIONS) { xoroRand.nextLong(); i += 1 }
     }
     val longImprovement = (1 - timeXoroLong / timeJavaLong) * 100
     println(s"Long:     java.util.Random - $timeJavaLong ms, xoroshiro128 - $timeXoroLong ms; $longImprovement% improvement")
@@ -31,7 +29,7 @@ trait Benchmark {
       var i = 0; while (i < ITERATIONS) { scalaRand.nextInt(); i += 1 }
     }
     val timeXoroInt = measurer measure {
-      var i = 0; while (i < ITERATIONS) { xoroIntRand.next(); i += 1 }
+      var i = 0; while (i < ITERATIONS) { xoroRand.nextInt(); i += 1 }
     }
     val intImprovement = (1 - timeXoroInt / timeJavaInt) * 100
     println(s"Int:      java.util.Random - $timeJavaInt ms, xoroshiro128 - $timeXoroInt ms; $intImprovement% improvement")
@@ -93,7 +91,7 @@ trait Benchmark {
       var i = 0; while (i < ITERATIONS) { scalaRand.nextBoolean(); i += 1 }
     }
     val timeXoroBool = measurer measure {
-      var i = 0; while (i < ITERATIONS) { xoroBoolRand.next(); i += 1 }
+      var i = 0; while (i < ITERATIONS) { xoroRand.nextBoolean(); i += 1 }
     }
     val boolImprovement = (1 - timeXoroBool / timeJavaBool) * 100
     println(s"Boolean:  java.util.Random - $timeJavaBool ms, xoroshiro128 - $timeXoroBool ms; $boolImprovement% improvement")
