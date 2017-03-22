@@ -48,6 +48,16 @@ class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long)
     result
   }
 
+  def nextShort() : Short = {
+    if (remainingBytes < 2) { generate() }
+
+    remainingBytes -= 2
+    val result : Short = remaining.toShort
+    remaining = remaining >>> 16
+
+    result
+  }
+
   def nextByte() : Byte = {
     if (remainingBytes < 1) { generate() }
 

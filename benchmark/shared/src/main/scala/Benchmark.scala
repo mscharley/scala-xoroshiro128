@@ -10,33 +10,43 @@ trait Benchmark {
   val measurer: Measurer
 
   def main(args: Array[String]): Unit = {
-    println(s"Benchmarking $ITERATIONS iterations x$BENCHES:")
+    println(s"Benchmarking ${ITERATIONS * 8} bytes of data x$BENCHES:")
     println("")
 
-    val scalaRand = new java.util.Random
-    val xoroRand = Xoroshiro128()
+    val scalaRand = new scala.util.Random()
+    val javaRand  = new java.util.Random()
+    val xoroRand  = Xoroshiro128()
 
-    val timeJavaLong = measurer measure {
+    val timeScalaLong = measurer measure {
       var i = 0; while (i < ITERATIONS) { scalaRand.nextLong(); i += 1 }
     }
     val timeXoroLong = measurer measure {
       var i = 0; while (i < ITERATIONS) { xoroRand.nextLong(); i += 1 }
     }
-    val longImprovement = (1 - timeXoroLong / timeJavaLong) * 100
-    println(s"Long:     java.util.Random - $timeJavaLong ms, xoroshiro128 - $timeXoroLong ms; $longImprovement% improvement")
+    val longImprovement = (1 - timeXoroLong / timeScalaLong) * 100
+    println(s"Long:     s.u.Random - $timeScalaLong ms, xoroshiro128 - $timeXoroLong ms; $longImprovement% improvement")
 
-    val timeJavaInt = measurer measure {
-      var i = 0; while (i < ITERATIONS) { scalaRand.nextInt(); i += 1 }
+    val timeScalaInt = measurer measure {
+      var i = 0; while (i < ITERATIONS * 2) { scalaRand.nextInt(); i += 1 }
     }
     val timeXoroInt = measurer measure {
-      var i = 0; while (i < ITERATIONS) { xoroRand.nextInt(); i += 1 }
+      var i = 0; while (i < ITERATIONS * 2) { xoroRand.nextInt(); i += 1 }
     }
-    val intImprovement = (1 - timeXoroInt / timeJavaInt) * 100
-    println(s"Int:      java.util.Random - $timeJavaInt ms, xoroshiro128 - $timeXoroInt ms; $intImprovement% improvement")
+    val intImprovement = (1 - timeXoroInt / timeScalaInt) * 100
+    println(s"Int:      s.u.Random - $timeScalaInt ms, xoroshiro128 - $timeXoroInt ms; $intImprovement% improvement")
 
-    val timeJavaBytes = measurer measure {
+    val timeScalaShort = measurer measure {
+      var i = 0; while (i < ITERATIONS * 4) { scalaRand.nextInt().toShort; i += 1 }
+    }
+    val timeXoroShort = measurer measure {
+      var i = 0; while (i < ITERATIONS * 4) { xoroRand.nextShort(); i += 1 }
+    }
+    val shortImprovement = (1 - timeXoroShort / timeScalaShort) * 100
+    println(s"Short:    s.u.Random - $timeScalaShort ms, xoroshiro128 - $timeXoroShort ms; $shortImprovement% improvement")
+
+    val timeScalaBytes = measurer measure {
       var i = 0
-      val l = ITERATIONS / 16
+      val l = ITERATIONS / 16 * 8
       while (i < l) {
         val b = Array.ofDim[Byte](SMALL_BYTE_COUNT)
         scalaRand.nextBytes(b)
@@ -45,19 +55,19 @@ trait Benchmark {
     }
     val timeXoroBytes = measurer measure {
       var i = 0
-      val l = ITERATIONS / 16
+      val l = ITERATIONS / 16 * 8
       while (i < l) {
         val b = Array.ofDim[Byte](SMALL_BYTE_COUNT)
         xoroRand.nextBytes(b)
         i += 1
       }
     }
-    val bytesImprovement = (1 - timeXoroBytes / timeJavaBytes) * 100
-    println(s"Bytes(s): java.util.Random - $timeJavaBytes ms, xoroshiro128 - $timeXoroBytes ms; $bytesImprovement% improvement")
+    val bytesImprovement = (1 - timeXoroBytes / timeScalaBytes) * 100
+    println(s"Bytes(s): s.u.Random - $timeScalaBytes ms, xoroshiro128 - $timeXoroBytes ms; $bytesImprovement% improvement")
 
-    val timeJavaBytesBig = measurer measure {
+    val timeScalaBytesBig = measurer measure {
       var i = 0
-      val l = ITERATIONS / 4096
+      val l = ITERATIONS / 4096 * 8
       while (i < l) {
         val b = Array.ofDim[Byte](LARGE_BYTE_COUNT)
         scalaRand.nextBytes(b)
@@ -66,34 +76,34 @@ trait Benchmark {
     }
     val timeXoroBytesBig = measurer measure {
       var i = 0
-      val l = ITERATIONS / 4096
+      val l = ITERATIONS / 4096 * 8
       while (i < l) {
         val b = Array.ofDim[Byte](LARGE_BYTE_COUNT)
         xoroRand.nextBytes(b)
         i += 1
       }
     }
-    val bytesBigImprovement = (1 - timeXoroBytesBig / timeJavaBytesBig) * 100
-    println(s"Bytes(l): java.util.Random - $timeJavaBytesBig ms, xoroshiro128 - $timeXoroBytesBig ms; $bytesBigImprovement% improvement")
+    val bytesBigImprovement = (1 - timeXoroBytesBig / timeScalaBytesBig) * 100
+    println(s"Bytes(l): s.u.Random - $timeScalaBytesBig ms, xoroshiro128 - $timeXoroBytesBig ms; $bytesBigImprovement% improvement")
 
-    val timeJavaBytesSingle = measurer measure {
-      val b = Array.ofDim[Byte](ITERATIONS)
+    val timeScalaBytesSingle = measurer measure {
+      val b = Array.ofDim[Byte](ITERATIONS * 8)
       scalaRand.nextBytes(b)
     }
     val timeXoroBytesSingle = measurer measure {
-      val b = Array.ofDim[Byte](ITERATIONS)
+      val b = Array.ofDim[Byte](ITERATIONS * 8)
       xoroRand.nextBytes(b)
     }
-    val bytesSingleImprovement = (1 - timeXoroBytesSingle / timeJavaBytesSingle) * 100
-    println(s"Bytes:    java.util.Random - $timeJavaBytesSingle ms, xoroshiro128 - $timeXoroBytesSingle ms; $bytesSingleImprovement% improvement")
+    val bytesSingleImprovement = (1 - timeXoroBytesSingle / timeScalaBytesSingle) * 100
+    println(s"Bytes:    s.u.Random - $timeScalaBytesSingle ms, xoroshiro128 - $timeXoroBytesSingle ms; $bytesSingleImprovement% improvement")
 
-    val timeJavaBool = measurer measure {
-      var i = 0; while (i < ITERATIONS) { scalaRand.nextBoolean(); i += 1 }
+    val timeScalaBool = measurer measure {
+      var i = 0; while (i < ITERATIONS * 8) { scalaRand.nextBoolean(); i += 1 }
     }
     val timeXoroBool = measurer measure {
-      var i = 0; while (i < ITERATIONS) { xoroRand.nextBoolean(); i += 1 }
+      var i = 0; while (i < ITERATIONS * 8) { xoroRand.nextBoolean(); i += 1 }
     }
-    val boolImprovement = (1 - timeXoroBool / timeJavaBool) * 100
-    println(s"Boolean:  java.util.Random - $timeJavaBool ms, xoroshiro128 - $timeXoroBool ms; $boolImprovement% improvement")
+    val boolImprovement = (1 - timeXoroBool / timeScalaBool) * 100
+    println(s"Boolean:  s.u.Random - $timeScalaBool ms, xoroshiro128 - $timeXoroBool ms; $boolImprovement% improvement")
   }
 }
