@@ -17,56 +17,28 @@ object Xoroshiro128 {
 class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long) {
   import java.lang.Long.{signum => signLong}
 
-  private var remainingBytes : Int = 0
-  private var remaining : Long = _
-
   @inline
-  private def generate(): Unit = {
-    remaining = seedLo + seedHi
+  private def generate(): Long = {
+    val out = seedLo + seedHi
     val s1 : Long = seedHi ^ seedLo
 
     // scalastyle:off magic.number
     seedLo = ((seedLo << 55) | (seedLo >>> -55)) ^ s1 ^ (s1 << 14)
     seedHi = (s1 << 36) | (s1 >>> -36)
-    remainingBytes = 8
     // scalastyle:on magic.number
+    out
   }
 
-  def nextLong() : Long = {
-    generate()
-    remainingBytes = 0
-    remaining
-  }
+  def nextLong() : Long = generate()
 
-  def nextInt() : Int = {
-    if (remainingBytes < 4) { generate() }
+  def nextInt() : Int =
+    (generate() >>> 32).toInt
 
-    remainingBytes -= 4
-    val result : Int = remaining.toInt
-    remaining = remaining >>> 32
+  def nextShort() : Short =
+    (generate() >>> 48).toShort
 
-    result
-  }
-
-  def nextShort() : Short = {
-    if (remainingBytes < 2) { generate() }
-
-    remainingBytes -= 2
-    val result : Short = remaining.toShort
-    remaining = remaining >>> 16
-
-    result
-  }
-
-  def nextByte() : Byte = {
-    if (remainingBytes < 1) { generate() }
-
-    remainingBytes -= 1
-    val result : Byte = remaining.toByte
-    remaining = remaining >>> 32
-
-    result
-  }
+  def nextByte() : Byte =
+    (generate() >>> 56).toByte
 
   def nextBytes(bytes : Array[Byte]) : Unit = {
     var i = 0
@@ -77,9 +49,6 @@ class Xoroshiro128 private(private var seedLo : Long, private var seedHi : Long)
     }
   }
 
-  def nextBoolean(): Boolean = {
-    generate()
-    remainingBytes = 0
-    signLong(remaining) == 1
-  }
+  def nextBoolean(): Boolean =
+    signLong(generate()) == 1
 }
